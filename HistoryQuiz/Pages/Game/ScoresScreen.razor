@@ -1,0 +1,41 @@
+﻿@page "/scores"
+
+<div class="container text-center">
+    <h3>Scores</h3>
+</div>
+
+@if (players == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <table class="table table-hover container text-center">
+        <thead>
+            <tr>
+                <th scope="col">Player</th>
+                <th scope="col">Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var player in players)
+            {
+                <tr class="table-light">
+                    <td>@player.Initials</td>
+                    <td>@player.Score</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Player> players;
+
+    @inject IPlayerRepository _playerRepository;
+
+    protected override async Task OnInitializedAsync()
+    {
+        players = await _playerRepository.GetAllPlayersAsync();
+    }
+}

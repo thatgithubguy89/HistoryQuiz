@@ -1,0 +1,92 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = HistoryQuiz
+build_property.RootNamespace = HistoryQuiz
+build_property.ProjectDir = C:\Users\joryt\Desktop\HistoryQuiz\HistoryQuiz\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\joryt\Desktop\HistoryQuiz\HistoryQuiz
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/Answers/AnswerList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQW5zd2Vyc1xBbnN3ZXJMaXN0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/Answers/CreateAnswer.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQW5zd2Vyc1xDcmVhdGVBbnN3ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/Answers/DeleteAnswer.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQW5zd2Vyc1xEZWxldGVBbnN3ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/Answers/EditAnswer.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQW5zd2Vyc1xFZGl0QW5zd2VyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/Game/EndScreen.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2FtZVxFbmRTY3JlZW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/Game/GameScreen.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2FtZVxHYW1lU2NyZWVuLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/Game/ScoresScreen.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2FtZVxTY29yZXNTY3JlZW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/Game/StartScreen.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2FtZVxTdGFydFNjcmVlbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/Questions/CreateQuestion.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVlc3Rpb25zXENyZWF0ZVF1ZXN0aW9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/Questions/DeleteQuestion.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVlc3Rpb25zXERlbGV0ZVF1ZXN0aW9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/Questions/EditQuestion.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVlc3Rpb25zXEVkaXRRdWVzdGlvbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/Questions/QuestionList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVlc3Rpb25zXFF1ZXN0aW9uTGlzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-pw04hep5ub
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/_Host.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joryt/Desktop/HistoryQuiz/HistoryQuiz/Pages/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0xheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

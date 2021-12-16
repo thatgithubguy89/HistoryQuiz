@@ -1,0 +1,34 @@
+﻿@inherits LayoutComponentBase
+@using Blazored.Toast.Configuration
+
+<PageTitle>History Quiz</PageTitle>
+
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <a class="navbar-brand" href="#">Navbar</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/createplayer">Start Quiz</a>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/questions">Questions</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/answers">Answers</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/scores">Scores</NavLink>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <article class="content px-4">
+            <BlazoredToasts Timeout="1"  Position="ToastPosition.TopCenter" />
+            @Body
+        </article>
+    </main>
+</div>

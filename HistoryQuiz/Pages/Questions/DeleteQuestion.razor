@@ -1,0 +1,43 @@
+﻿@page "/deletequestion/{id}"
+
+<EditForm Model="@question" class="container">
+    <fieldset>
+        <div class="form-group">
+            <label for="input" class="form-label mt-4">Title</label>
+            <InputText @bind-Value="question.Title" class="form-control" disabled="disabled" id="input" style="resize:none;" />
+        </div>
+        <div class="form-group">
+            <label for="textarea" class="form-label mt-4">Content</label>
+            <textarea @bind="@question.Content" disabled="disabled" class="form-control" id="textarea" rows="3" style="resize:none"></textarea>
+        </div>
+        <div class="form-group mb-3">
+            <label for="textarea" class="form-label mt-4">Image</label><br />
+            <CascadingValue Value="@question.Image">
+                <img src="@question.Image" style="width:200px;height:200px;" /><br />
+            </CascadingValue>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-danger w-25" @onclick="RemoveQuestion">Delete</button>
+            <NavLink class="btn btn-success w-25" href="/questions">Back</NavLink>
+        </div>
+    </fieldset>
+</EditForm>
+
+@code {
+    private Question question = new();
+    [Parameter] public string Id { get; set; }
+
+    @inject IQuestionRepository _questionRepository;
+    @inject NavigationManager navManager;
+
+    protected override async Task OnInitializedAsync()
+    {
+        question = await _questionRepository.GetQuestionByIdAsync(int.Parse(Id));  // Store the question whose Id matches the parameter Id
+    }
+
+    public async Task RemoveQuestion()
+    {
+        await _questionRepository.DeleteQuestionAsync(question.Id); // Delete the current question
+        navManager.NavigateTo("/questions"); // Go to the questions list component
+    }
+}

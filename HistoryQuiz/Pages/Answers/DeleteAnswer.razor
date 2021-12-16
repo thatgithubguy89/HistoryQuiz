@@ -1,0 +1,34 @@
+﻿@page "/deleteanswer/{id}"
+
+<div class="container">
+    <fieldset>
+        <div class="form-group">
+            <label for="textarea" class="form-label mt-4">Content</label>
+            <textarea @bind="@answer.Content" disabled="disabled" class="form-control" id="textarea" rows="3" style="resize:none"></textarea>
+        </div>
+
+        <div class="form-group mt-4">
+            <button class="btn btn-danger w-25 me-2" @onclick="RemoveQuestion">Delete</button>
+            <NavLink class="btn btn-success w-25" href="/answers">Back</NavLink>
+        </div>
+    </fieldset>
+</div>
+
+@code {
+    private Answer answer = new();
+    [Parameter] public string Id { get; set; }
+
+    @inject IAnswerRepository _answerRepository;
+    @inject NavigationManager navManager;
+
+    public async Task RemoveQuestion()
+    {
+        await _answerRepository.DeleteAnswerAsync(answer.Id);
+        navManager.NavigateTo($"/answers");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        answer = await _answerRepository.GetAnswerByIdAsync(int.Parse(Id));
+    }
+}

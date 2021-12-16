@@ -1,0 +1,90 @@
+﻿@page "/playgame/{id}"
+
+@if (questions == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <h4 class="text-center mb-2">Score: &nbsp; @player.Score</h4>
+    <div class="container mt-5" style="display: flex;">
+        <div class="container float-start">
+            <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+                <div class="card-header">@questionList[counter].Title</div>
+                <div class="card-body">
+                    <img src="@questionList[counter].Image" style="width:200px; height: 200px;" class="card-title" />
+                    <p class="card-text">@questionList[counter].Content</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container float-end" style="border:2px solid #2c3e50; border-radius: 5px; height: 500px; width: 800px;">
+            @foreach (var answer in answers)
+            {
+                <div class="container float-end mb-5">
+                    <p style="color:#2c3e50;">@answer.Content</p>
+                    <button class="btn btn-primary w-25" @onclick="@(() =>SelectAnswer(@answer.IsCorrect))">Select</button>
+                </div>
+            }
+        </div>
+    </div>
+
+}
+
+@code {
+    [Parameter] public string Id { get; set; }
+    private Player player = new();
+    private Question[] questionList;
+    private IEnumerable<Answer> answers;
+    private IEnumerable<Question> questions;
+    private int counter = 0; // This controls the index for the questions list
+
+    @inject IAnswerRepository _answerRepository
+    @inject IQuestionRepository _questionRepository
+    @inject IPlayerRepository _playerRepository
+    @inject IToastService toastService
+    @inject NavigationManager navigationManager
+
+    protected override async Task OnInitializedAsync()
+    {
+        questions = await _questionRepository.GetAllQuestionsAsync(); // Get all questions
+        questionList = questions.ToArray(); // Convert questions enumerable to an array to better access each index
+        player = await _playerRepository.GetPlayerByIdAsync(int.Parse(Id)); // Get the player that was created on previous screen
+        await GetAnswers(questionList[0].Id); // Get all answers for the current question
+    }
+
+    public async Task GetNextQuestion()
+    {
+        await Task.Delay(2000);
+        if (counter < questionList.Length - 1) // If counter is less than the length of questionList minus one
+        {
+            counter++; // Add one to counter
+            await GetAnswers(questionList[counter].Id); // Get answers for the next question in questionList
+        }
+        else
+        {
+            await _playerRepository.UpdatePlayerAsync(player); // If there are no more questions, update the player
+            navigationManager.NavigateTo($"/endscreen/{player.Id}"); // Go to the end screen
+        }
+    }
+
+    public async Task GetAnswers(int questionId)
+    {
+        answers = await _answerRepository.GetAllAnswersByQuestionIdAsync(questionId); // Get all answers that have the question id that is passed in
+    }
+
+    public async Task SelectAnswer(bool choice)
+    {
+        if (choice == true) // If the correct answer was selected
+        {
+            toastService.ShowSuccess("Correct Answer", " "); // Show success notification
+            player.Score++; // Increment the players score
+            await GetNextQuestion(); // Go to the next question
+        }
+        else
+        {
+            toastService.ShowError("Incorrect Answer", " "); // Show error notification
+            await GetNextQuestion(); // If the incorrect answer was selected, go to the next question
+        }
+    }
+ }

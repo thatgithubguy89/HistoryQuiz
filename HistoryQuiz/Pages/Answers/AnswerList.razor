@@ -1,0 +1,55 @@
+﻿@page "/answers"
+
+@if (answers == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="container">
+        <NavLink class="btn btn-primary mt-2" href="/createanswer">Create Answer</NavLink>
+    </div>
+    <table class="table table-hover container text-center">
+        <thead>
+            <tr>
+                <th scope="col">Content</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var answer in answers)
+            {
+                <tr class="table-light">
+                    <td>@answer.Content.Substring(0, 3)...</td>
+                    <td>
+                        <button @onclick="(() => EditNav(answer.Id))" class="btn btn-primary w-25 me-2">Edit</button>
+                        <button @onclick="(() => DeleteNav(answer.Id))" class="btn btn-danger w-25 me-2">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Answer> answers;
+    [Parameter] public string Id { get; set; }
+
+    @inject IAnswerRepository _answerRepository;
+    @inject NavigationManager navManager;
+
+    protected override async Task OnInitializedAsync()
+    {
+        answers = await _answerRepository.GetAllAnswersAsync();
+    }
+
+    public void EditNav(int id)
+    {
+        navManager.NavigateTo($"/editanswer/{id}");
+    }
+
+    public void DeleteNav(int id)
+    {
+        navManager.NavigateTo($"/deleteanswer/{id}");
+    }
+}

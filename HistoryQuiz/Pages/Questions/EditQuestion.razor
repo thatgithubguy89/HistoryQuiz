@@ -1,0 +1,57 @@
+﻿@page "/editquestion/{id}"
+
+<EditForm Model="@question" OnValidSubmit="UpdateQuestion" class="container">
+    <DataAnnotationsValidator />
+    <fieldset>
+        <div class="form-group">
+            <label for="input" class="form-label mt-4">Title</label>
+            <InputText @bind-Value="question.Title" class="form-control" id="input" style="resize:none" />
+            <ValidationMessage For="(() => question.Title)" />
+        </div>
+        <div class="form-group">
+            <label for="textarea" class="form-label mt-4">Content</label>
+            <InputTextArea @bind-Value="question.Content" class="form-control" id="textarea" rows="3" style="resize:none"></InputTextArea>
+            <ValidationMessage For="(() => question.Content)" />
+        </div>
+        <div class="form-group mb-3">
+            <label for="textarea" class="form-label mt-4">Image</label><br />
+            <img src="@question.Image" style="width:200px;height:200px;" /><br />
+            <CascadingValue Value="@question.Image">
+                <InputFile OnChange="OnInputFileChanged"></InputFile>
+            </CascadingValue>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary w-25">Update</button>
+            <NavLink class="btn btn-success w-25" href="/questions">Back</NavLink>
+        </div>
+    </fieldset>
+</EditForm>
+
+@code {
+    private Question question = new();
+    [Parameter] public string Id { get; set; }
+
+    @inject IQuestionRepository _questionRepository;
+    @inject NavigationManager navManager;
+
+    protected override async Task OnInitializedAsync()
+    {
+        question = await _questionRepository.GetQuestionByIdAsync(int.Parse(Id)); // Store the question whose Id matches the parameter Id
+    }
+
+    public async Task UpdateQuestion()
+    {
+        await _questionRepository.UpdateQuestionAsync(question); // Update the current question
+        navManager.NavigateTo("/questions"); // Go to the questions list component
+    }
+
+    private async Task OnInputFileChanged(InputFileChangeEventArgs inputFileChangeEvent)
+    {
+        var file = inputFileChangeEvent.File; // Get the file
+
+        var buffer = new byte[file.Size]; // Convert the file to a byte array
+        await file.OpenReadStream().ReadAsync(buffer);
+
+        question.Image = $"data:image/png;base64,{Convert.ToBase64String(buffer)}"; // Convert the byte array to a string
+    }
+}

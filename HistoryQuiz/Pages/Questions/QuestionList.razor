@@ -1,0 +1,56 @@
+﻿@page "/questions"
+
+@if (questions == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="container">
+        <NavLink class="btn btn-primary mt-2" href="/createquestion">Create Question</NavLink>
+    </div>
+    <table class="table table-hover container text-center">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var question in questions)
+            {
+                <tr class="table-light">
+                    <td>@question.Title</td>
+                    <td>@question.Content.Substring(0, 30)...</td>
+                    <td>
+                        <button @onclick="(() => EditNav(question.Id))" class="btn btn-primary w-25 me-2">Edit</button>
+                        <button @onclick="(() => DeleteNav(question.Id))" class="btn btn-danger w-25 me-2">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Question> questions;
+
+    @inject IQuestionRepository _questionRepository;
+    @inject NavigationManager navManager;
+
+    protected override async Task OnInitializedAsync()
+    {
+        questions = await _questionRepository.GetAllQuestionsAsync(); // Store all the questions
+    }
+
+    public void EditNav(int id)
+    {
+        navManager.NavigateTo($"/editquestion/{id}"); // Go to the edit component for a question
+    }
+
+    public void DeleteNav(int id)
+    {
+        navManager.NavigateTo($"/deletequestion/{id}"); // Go to the delete component for a question
+    }
+}

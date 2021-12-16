@@ -1,0 +1,64 @@
+﻿@page "/editanswer/{id}"
+
+<EditForm Model="@answer" OnValidSubmit="UpdateAnswer" class="container">
+    <DataAnnotationsValidator />
+    <fieldset>
+        <div class="form-group">
+            <label for="textarea" class="form-label mt-4">Content</label>
+            <InputTextArea @bind-Value="answer.Content" class="form-control" id="textarea" rows="3" style="resize:none"></InputTextArea>
+            <ValidationMessage For="(() => answer.Content)" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="textarea" class="form-label mt-4">Question</label>
+            @if (questions == null)
+            {
+                <span>Loading...</span>
+            }
+            else
+            {
+                <InputSelect @bind-Value="answer.QuestionId" class="form-control">
+                    @foreach (var question in questions)
+                    {
+                    <option value="@question.Id">@question.Title</option>
+                    }
+            </InputSelect>
+            }
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="textarea" class="form-label mt-4">Correct Answer?</label>
+            <InputSelect @bind-Value="answer.IsCorrect" class="form-control">
+                <option value="True">Correct Answer</option>
+                <option value="False">Wrong Answer</option>
+            </InputSelect>
+        </div>
+
+        <div class="form-group mt-4">
+            <button type="submit" class="btn btn-primary w-25 me-2">Update</button>
+            <NavLink class="btn btn-success w-25" href="/answers">Back</NavLink>
+        </div>
+    </fieldset>
+</EditForm>
+
+@code {
+    private Answer answer = new();
+    private IEnumerable<Question> questions;
+    [Parameter] public string Id { get; set; }
+
+    @inject IQuestionRepository _questionRepository;
+    @inject IAnswerRepository _answerRepository;
+    @inject NavigationManager navManager;
+
+    protected override async Task OnInitializedAsync()
+    {
+        answer = await _answerRepository.GetAnswerByIdAsync(int.Parse(Id));
+        questions = await _questionRepository.GetAllQuestionsAsync();
+    }
+
+    public async Task UpdateAnswer()
+    {
+        await _answerRepository.UpdateAnswerAsync(answer);
+        navManager.NavigateTo($"/answers");
+    }
+}

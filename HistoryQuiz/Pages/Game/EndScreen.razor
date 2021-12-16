@@ -1,0 +1,26 @@
+﻿@page "/endscreen/{id}"
+
+<div>
+    <h3>Game Over</h3>
+
+    <p>Your score is @player.Score</p>
+    <button class="btn btn-primary" @onclick="ExitGame">Exit</button>
+</div>
+
+@code {
+    [Parameter] public string Id { get; set; }
+    private Player player = new();
+
+    @inject IPlayerRepository _playerRepository
+    @inject NavigationManager navigationManager
+
+    protected override async Task OnInitializedAsync()
+    {
+        player = await _playerRepository.GetPlayerByIdAsync(int.Parse(Id));
+    }
+
+    public void ExitGame()
+    {
+        navigationManager.NavigateTo("/");
+    }
+}
