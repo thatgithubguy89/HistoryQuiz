@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\joryt\\Desktop\\HistoryQuiz\\HistoryQuiz.Test\\HistoryQuiz.Test.csproj": {}
+    "C:\\Projects\\Blazor\\HistoryQuiz\\HistoryQuiz.Test\\HistoryQuiz.Test.csproj": {}
   },
   "projects": {
-    "C:\\Users\\joryt\\Desktop\\HistoryQuiz\\HistoryQuiz.Test\\HistoryQuiz.Test.csproj": {
+    "C:\\Projects\\Blazor\\HistoryQuiz\\HistoryQuiz.Test\\HistoryQuiz.Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\joryt\\Desktop\\HistoryQuiz\\HistoryQuiz.Test\\HistoryQuiz.Test.csproj",
+        "projectUniqueName": "C:\\Projects\\Blazor\\HistoryQuiz\\HistoryQuiz.Test\\HistoryQuiz.Test.csproj",
         "projectName": "HistoryQuiz.Test",
-        "projectPath": "C:\\Users\\joryt\\Desktop\\HistoryQuiz\\HistoryQuiz.Test\\HistoryQuiz.Test.csproj",
+        "projectPath": "C:\\Projects\\Blazor\\HistoryQuiz\\HistoryQuiz.Test\\HistoryQuiz.Test.csproj",
         "packagesPath": "C:\\Users\\joryt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\joryt\\Desktop\\HistoryQuiz\\HistoryQuiz.Test\\obj\\",
+        "outputPath": "C:\\Projects\\Blazor\\HistoryQuiz\\HistoryQuiz.Test\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
@@ -33,8 +33,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\joryt\\Desktop\\HistoryQuiz\\HistoryQuiz\\HistoryQuiz.csproj": {
-                "projectPath": "C:\\Users\\joryt\\Desktop\\HistoryQuiz\\HistoryQuiz\\HistoryQuiz.csproj"
+              "C:\\Projects\\Blazor\\HistoryQuiz\\HistoryQuiz\\HistoryQuiz.csproj": {
+                "projectPath": "C:\\Projects\\Blazor\\HistoryQuiz\\HistoryQuiz\\HistoryQuiz.csproj"
               }
             }
           }
@@ -89,14 +89,14 @@
         }
       }
     },
-    "C:\\Users\\joryt\\Desktop\\HistoryQuiz\\HistoryQuiz\\HistoryQuiz.csproj": {
+    "C:\\Projects\\Blazor\\HistoryQuiz\\HistoryQuiz\\HistoryQuiz.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\joryt\\Desktop\\HistoryQuiz\\HistoryQuiz\\HistoryQuiz.csproj",
+        "projectUniqueName": "C:\\Projects\\Blazor\\HistoryQuiz\\HistoryQuiz\\HistoryQuiz.csproj",
         "projectName": "HistoryQuiz",
-        "projectPath": "C:\\Users\\joryt\\Desktop\\HistoryQuiz\\HistoryQuiz\\HistoryQuiz.csproj",
+        "projectPath": "C:\\Projects\\Blazor\\HistoryQuiz\\HistoryQuiz\\HistoryQuiz.csproj",
         "packagesPath": "C:\\Users\\joryt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\joryt\\Desktop\\HistoryQuiz\\HistoryQuiz\\obj\\",
+        "outputPath": "C:\\Projects\\Blazor\\HistoryQuiz\\HistoryQuiz\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",

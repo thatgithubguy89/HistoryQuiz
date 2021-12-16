@@ -68,7 +68,7 @@ namespace HistoryQuiz.Test
 
         [TestCase(0)]
         [TestCase(1)]
-        public async Task DeleteAnswerAsync_GivenInvalidAnswerObject_ShouldThrowArgumentNullException(int id)
+        public async Task DeleteAnswerAsync_GivenInvalidId_ShouldThrowArgumentNullException(int id)
         {
             await Should.ThrowAsync<ArgumentNullException>(async () => await _answerRepository.DeleteAnswerAsync(id));
         }
@@ -151,13 +151,14 @@ namespace HistoryQuiz.Test
 
             await _answerRepository.AddAnswerAsync(answer);
             answer.Content = "new";
+            await _answerRepository.UpdateAnswerAsync(answer);
 
             var result = await _answerRepository.GetAnswerByIdAsync(1);
             result.Content.ShouldBe("new");
         }
 
         [Test]
-        public async Task UpdateAnswerAsync_GivenInvalidId_ShouldThrowArgumentNullException()
+        public async Task UpdateAnswerAsync_GivenInvalidAnswer_ShouldThrowArgumentNullException()
         {
             await Should.ThrowAsync<ArgumentNullException>(async () => await _answerRepository.UpdateAnswerAsync(null));
         }

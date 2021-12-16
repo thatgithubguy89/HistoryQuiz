@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jl+Dtin+bkTM3wH/pob7V+kfxt+qLCPtSBRTWFRMLu5jQv8YAaSGX2MzgHhbf/1WJ4STSO4Kr+gGOQaNE5tnlA==",
+  "dgSpecHash": "qsH3aJgTvakKc19LJgl3xlJjacn8WX4hpA8kLvBV3Esnmjk+FLD2Z07lNz29zbjfkvPB83bZ4MrOHvQlIngOSw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\joryt\\Desktop\\HistoryQuiz\\HistoryQuiz.Test\\HistoryQuiz.Test.csproj",
+  "projectFilePath": "C:\\Projects\\Blazor\\HistoryQuiz\\HistoryQuiz.Test\\HistoryQuiz.Test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\joryt\\.nuget\\packages\\blazored.toast\\3.2.2\\blazored.toast.3.2.2.nupkg.sha512",
     "C:\\Users\\joryt\\.nuget\\packages\\coverlet.collector\\3.1.0\\coverlet.collector.3.1.0.nupkg.sha512",
