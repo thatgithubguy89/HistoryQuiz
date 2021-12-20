@@ -42,21 +42,36 @@
 </EditForm>
 
 @code {
+    @inject IAnswerRepository _answerRepository;
+    @inject IQuestionRepository _questionRepository;
+    @inject ILogger<CreateAnswer> _logger;
+    @inject NavigationManager navManager;
+
     private Answer answer = new();
     private IEnumerable<Question> questions;
 
-    @inject IAnswerRepository _answerRepository;
-    @inject IQuestionRepository _questionRepository;
-    @inject NavigationManager navManager;
-
     protected override async Task OnInitializedAsync()
     {
-        questions = await _questionRepository.GetAllQuestionsAsync();
+        try
+        {
+            questions = await _questionRepository.GetAllQuestionsAsync(); // Store all questions for the InputSelect list
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Failed to access all questions. Component: CreateAnswer Method: OnInitializedAsync\n", ex);
+        }
     }
 
     public async Task AddAnswer()
     {
-        await _answerRepository.AddAnswerAsync(answer);
-        navManager.NavigateTo("/answers");
+        try
+        {
+            await _answerRepository.AddAnswerAsync(answer); // Add the answer to the database
+            navManager.NavigateTo("/answers"); // Go to AnswerList component
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Failed to create answer. Component: CreateAnswer Method: AddAnswerAsync\n", ex);
+        }
     }
 }

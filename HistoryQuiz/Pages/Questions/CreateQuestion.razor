@@ -27,15 +27,23 @@
 </EditForm>
 
 @code {
-    private Question question = new();
-
     @inject IQuestionRepository _questionRepository;
     @inject NavigationManager navManager;
+    @inject ILogger<CreateQuestion> _logger;
+
+    private Question question = new();
 
     public async Task AddQuestion()
     {
-        await _questionRepository.AddQuestionAsync(question); // Add the current question
-        navManager.NavigateTo("/questions"); // Go to the question list component
+        try
+        {
+            await _questionRepository.AddQuestionAsync(question); // Add the current question
+            navManager.NavigateTo("/questions"); // Go to the question list component
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Failed to add question. Component: CreateQuestion Method: AddQuestion\n", ex);
+        }
     }
 
     private async Task OnInputFileChanged(InputFileChangeEventArgs e)

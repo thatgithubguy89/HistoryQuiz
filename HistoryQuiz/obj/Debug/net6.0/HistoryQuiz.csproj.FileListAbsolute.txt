@@ -122,3 +122,15 @@ C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\obj\Debug\net6.0\HistoryQuiz.dll
 C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\obj\Debug\net6.0\ref\HistoryQuiz.dll
 C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\obj\Debug\net6.0\HistoryQuiz.pdb
 C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\obj\Debug\net6.0\HistoryQuiz.genruntimeconfig.cache
+C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\bin\Debug\net6.0\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\bin\Debug\net6.0\Serilog.dll
+C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\bin\Debug\net6.0\Serilog.AspNetCore.dll
+C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\bin\Debug\net6.0\Serilog.Extensions.Hosting.dll
+C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\bin\Debug\net6.0\Serilog.Extensions.Logging.dll
+C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\bin\Debug\net6.0\Serilog.Formatting.Compact.dll
+C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\bin\Debug\net6.0\Serilog.Settings.Configuration.dll
+C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\bin\Debug\net6.0\Serilog.Sinks.Console.dll
+C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\bin\Debug\net6.0\Serilog.Sinks.Debug.dll
+C:\Projects\Blazor\HistoryQuiz\HistoryQuiz\bin\Debug\net6.0\Serilog.Sinks.File.dll

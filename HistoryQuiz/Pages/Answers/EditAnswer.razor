@@ -42,23 +42,39 @@
 </EditForm>
 
 @code {
-    private Answer answer = new();
-    private IEnumerable<Question> questions;
-    [Parameter] public string Id { get; set; }
-
+    @inject ILogger<EditAnswer> _logger;
     @inject IQuestionRepository _questionRepository;
     @inject IAnswerRepository _answerRepository;
     @inject NavigationManager navManager;
 
+    [Parameter] public string Id { get; set; }
+    private Answer answer = new();
+    private IEnumerable<Question> questions;
+
     protected override async Task OnInitializedAsync()
     {
-        answer = await _answerRepository.GetAnswerByIdAsync(int.Parse(Id));
-        questions = await _questionRepository.GetAllQuestionsAsync();
+        try
+        {
+            answer = await _answerRepository.GetAnswerByIdAsync(int.Parse(Id)); // Get the answer from the database
+            questions = await _questionRepository.GetAllQuestionsAsync(); // Get all the questions from the database for the InputSelect list
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Failed to access answer. Id{Id} Component: EditAnswer Method: OnInitializedAsync\n", ex);
+            _logger.LogError($"Failed to access questions. Component: EditAnswer Method: OnInitializedAsync\n", ex);
+        }
     }
 
     public async Task UpdateAnswer()
     {
-        await _answerRepository.UpdateAnswerAsync(answer);
-        navManager.NavigateTo($"/answers");
+        try
+        {
+            await _answerRepository.UpdateAnswerAsync(answer); // Update the answer in the database
+            navManager.NavigateTo($"/answers"); // Go to the AnswerList component
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Failed to update answer. Id{Id} Component: EditAnswer Method: UpdateAnswer\n", ex);
+        }
     }
 }

@@ -34,14 +34,22 @@ else
 }
 
 @code {
-    private IEnumerable<Question> questions;
-
     @inject IQuestionRepository _questionRepository;
     @inject NavigationManager navManager;
+    @inject ILogger<QuestionList> _logger;
+
+    private IEnumerable<Question> questions;
 
     protected override async Task OnInitializedAsync()
     {
-        questions = await _questionRepository.GetAllQuestionsAsync(); // Store all the questions
+        try
+        {
+            questions = await _questionRepository.GetAllQuestionsAsync(); // Store all the questions
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Failed to access all questions. Component: QuestionList Method: OnInitializedAsync\n", ex);
+        }
     }
 
     public void EditNav(int id)

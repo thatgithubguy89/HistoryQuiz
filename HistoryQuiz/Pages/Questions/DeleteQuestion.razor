@@ -24,20 +24,35 @@
 </EditForm>
 
 @code {
-    private Question question = new();
-    [Parameter] public string Id { get; set; }
-
     @inject IQuestionRepository _questionRepository;
     @inject NavigationManager navManager;
+    @inject ILogger<DeleteQuestion> _logger;
+
+    [Parameter] public string Id { get; set; }
+    private Question question = new();
 
     protected override async Task OnInitializedAsync()
     {
-        question = await _questionRepository.GetQuestionByIdAsync(int.Parse(Id));  // Store the question whose Id matches the parameter Id
+        try
+        {
+            question = await _questionRepository.GetQuestionByIdAsync(int.Parse(Id)); // Store the question whose Id matches the parameter Id
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Failed to access question. Id: {Id} Component: DeleteQuestion Method: OnInitializedAsync\n", ex);
+        }
     }
 
     public async Task RemoveQuestion()
     {
-        await _questionRepository.DeleteQuestionAsync(question.Id); // Delete the current question
-        navManager.NavigateTo("/questions"); // Go to the questions list component
+        try
+        {
+            await _questionRepository.DeleteQuestionAsync(int.Parse(Id)); // Delete the current question
+            navManager.NavigateTo("/questions"); // Go to the questions list component
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Failed to delete question. Id: {Id} Component: DeleteQuestion Method: RemoveQuestion\n", ex);
+        }
     }
 }
