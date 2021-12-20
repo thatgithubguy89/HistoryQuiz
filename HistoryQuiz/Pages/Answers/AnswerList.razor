@@ -32,24 +32,32 @@ else
 }
 
 @code {
-    private IEnumerable<Answer> answers;
-    [Parameter] public string Id { get; set; }
-
     @inject IAnswerRepository _answerRepository;
-    @inject NavigationManager navManager;
+    @inject ILogger<AnswerList> _logger;
+    @inject NavigationManager _navManager;
+
+    [Parameter] public string Id { get; set; }
+    private IEnumerable<Answer> answers;
 
     protected override async Task OnInitializedAsync()
     {
-        answers = await _answerRepository.GetAllAnswersAsync();
+        try
+        {
+            answers = await _answerRepository.GetAllAnswersAsync(); // Store all the answers
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Failed to access all answers. Component: AnswerList Method: OnInitializedAsync\n", ex);
+        }
     }
 
     public void EditNav(int id)
     {
-        navManager.NavigateTo($"/editanswer/{id}");
+        _navManager.NavigateTo($"/editanswer/{id}");
     }
 
     public void DeleteNav(int id)
     {
-        navManager.NavigateTo($"/deleteanswer/{id}");
+        _navManager.NavigateTo($"/deleteanswer/{id}");
     }
 }

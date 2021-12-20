@@ -8,27 +8,42 @@
         </div>
 
         <div class="form-group mt-4">
-            <button class="btn btn-danger w-25 me-2" @onclick="RemoveQuestion">Delete</button>
+            <button class="btn btn-danger w-25 me-2" @onclick="RemoveAnswer">Delete</button>
             <NavLink class="btn btn-success w-25" href="/answers">Back</NavLink>
         </div>
     </fieldset>
 </div>
 
 @code {
-    private Answer answer = new();
-    [Parameter] public string Id { get; set; }
-
+    @inject ILogger<DeleteAnswer> _logger;
     @inject IAnswerRepository _answerRepository;
     @inject NavigationManager navManager;
 
-    public async Task RemoveQuestion()
-    {
-        await _answerRepository.DeleteAnswerAsync(answer.Id);
-        navManager.NavigateTo($"/answers");
-    }
+    [Parameter] public string Id { get; set; }
+    private Answer answer = new();
 
     protected override async Task OnInitializedAsync()
     {
-        answer = await _answerRepository.GetAnswerByIdAsync(int.Parse(Id));
+        try
+        {
+            answer = await _answerRepository.GetAnswerByIdAsync(int.Parse(Id)); // Get the answer from the database
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Failed to access answer. Id{Id} Component: DeleteAnswer Method: OnInitializedAsync\n", ex);
+        }
+    }
+
+    public async Task RemoveAnswer()
+    {
+        try
+        {
+            await _answerRepository.DeleteAnswerAsync(answer.Id); // Remove the answer from the database
+            navManager.NavigateTo($"/answers");  // Go to AnswerList component
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Failed to delete answer. Id{Id} Component: DeleteAnswer Method: RemoveAnswer\n", ex);
+        }
     }
 }

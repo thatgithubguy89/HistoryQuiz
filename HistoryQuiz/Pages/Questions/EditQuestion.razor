@@ -28,21 +28,36 @@
 </EditForm>
 
 @code {
-    private Question question = new();
-    [Parameter] public string Id { get; set; }
-
     @inject IQuestionRepository _questionRepository;
     @inject NavigationManager navManager;
+    @inject ILogger<EditQuestion> _logger;
+
+    [Parameter] public string Id { get; set; }
+    private Question question = new();
 
     protected override async Task OnInitializedAsync()
     {
-        question = await _questionRepository.GetQuestionByIdAsync(int.Parse(Id)); // Store the question whose Id matches the parameter Id
+        try
+        {
+            question = await _questionRepository.GetQuestionByIdAsync(int.Parse(Id)); // Store the question whose Id matches the parameter Id
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Failed to access question. Id: {Id} Component: QuestionList Method: OnInitializedAsync\n", ex);
+        }
     }
 
     public async Task UpdateQuestion()
     {
-        await _questionRepository.UpdateQuestionAsync(question); // Update the current question
-        navManager.NavigateTo("/questions"); // Go to the questions list component
+        try
+        {
+            await _questionRepository.UpdateQuestionAsync(question); // Update the current question
+            navManager.NavigateTo("/questions"); // Go to the questions list component
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Failed to update question. Id: {Id} Component: QuestionList Method: UpdateQuestion\n", ex);
+        }
     }
 
     private async Task OnInputFileChanged(InputFileChangeEventArgs inputFileChangeEvent)
