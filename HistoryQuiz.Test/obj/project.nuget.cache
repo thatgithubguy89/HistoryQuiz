@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "qsH3aJgTvakKc19LJgl3xlJjacn8WX4hpA8kLvBV3Esnmjk+FLD2Z07lNz29zbjfkvPB83bZ4MrOHvQlIngOSw==",
+  "dgSpecHash": "t+YFLFnHy78B9Q0nXtCpFpJSeCz2A8fgaN4b2V122UGY7foTv7I+G+imJk1QFFsiyjpzZuINyV/tRqTphAR1Tg==",
   "success": true,
   "projectFilePath": "C:\\Projects\\Blazor\\HistoryQuiz\\HistoryQuiz.Test\\HistoryQuiz.Test.csproj",
   "expectedPackageFiles": [
