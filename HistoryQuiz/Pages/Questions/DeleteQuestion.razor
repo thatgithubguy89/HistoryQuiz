@@ -25,8 +25,9 @@
 
 @code {
     @inject IQuestionRepository _questionRepository;
-    @inject NavigationManager navManager;
+    @inject IWebHostEnvironment _hostEnvironment;
     @inject ILogger<DeleteQuestion> _logger;
+    @inject NavigationManager navManager;
 
     [Parameter] public string Id { get; set; }
     private Question question = new();
@@ -47,12 +48,30 @@
     {
         try
         {
+            DeleteImage(); // Delete image from the server
             await _questionRepository.DeleteQuestionAsync(int.Parse(Id)); // Delete the current question
             navManager.NavigateTo("/questions"); // Go to the questions list component
         }
         catch (Exception ex)
         {
             _logger.LogError($"Failed to delete question. Id: {Id} Component: DeleteQuestion Method: RemoveQuestion\n", ex);
+        }
+    }
+
+    public void DeleteImage()
+    {
+        try
+        {
+            string webRootPath = _hostEnvironment.WebRootPath; // Get path to wwwroot
+            var imagePath = Path.Combine(webRootPath, question.Image.TrimStart('\\')); // Get the current image property path
+            if (System.IO.File.Exists(imagePath)) // If the file exists in wwwroot\images
+            {
+                System.IO.File.Delete(imagePath); // Delete the file
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Failed to delete image. Component: DeleteQuestion Method: DeleteImage", ex);
         }
     }
 }

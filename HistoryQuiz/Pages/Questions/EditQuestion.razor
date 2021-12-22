@@ -29,8 +29,9 @@
 
 @code {
     @inject IQuestionRepository _questionRepository;
-    @inject NavigationManager navManager;
+    @inject IWebHostEnvironment _hostEnvironment;
     @inject ILogger<EditQuestion> _logger;
+    @inject NavigationManager navManager;
 
     [Parameter] public string Id { get; set; }
     private Question question = new();
@@ -43,7 +44,7 @@
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Failed to access question. Id: {Id} Component: QuestionList Method: OnInitializedAsync\n", ex);
+            _logger.LogError($"Failed to access question. Id: {Id} Component: EditQuestion Method: OnInitializedAsync\n", ex);
         }
     }
 
@@ -56,17 +57,48 @@
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Failed to update question. Id: {Id} Component: QuestionList Method: UpdateQuestion\n", ex);
+            _logger.LogError($"Failed to update question. Id: {Id} Component: EditQuestion Method: UpdateQuestion\n", ex);
         }
     }
 
-    private async Task OnInputFileChanged(InputFileChangeEventArgs inputFileChangeEvent)
+    public void DeleteImage()
     {
-        var file = inputFileChangeEvent.File; // Get the file
+        try
+        {
+            string webRootPath = _hostEnvironment.WebRootPath; // Get path to wwwroot
+            var imagePath = Path.Combine(webRootPath, question.Image.TrimStart('\\')); // Get the current image property path
+            if (System.IO.File.Exists(imagePath)) // If the file exists in wwwroot\images
+            {
+                System.IO.File.Delete(imagePath); // Delete the file
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Failed to delete image. Component: EditQuestion Method: DeleteImage", ex);
+        }
+    }
 
-        var buffer = new byte[file.Size]; // Convert the file to a byte array
-        await file.OpenReadStream().ReadAsync(buffer);
+    private async Task OnInputFileChanged(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            DeleteImage(); // Delete old image before making a new one
+            string webRootPath = _hostEnvironment.WebRootPath; // Get path to wwwroot
+            var files = e.GetMultipleFiles();
+            string fileName = Path.GetRandomFileName(); // Give the file(s) a random name
+            var uploads = Path.Combine(webRootPath, @"images"); // Get path to wwwroot\images
+            var extension = Path.GetExtension(files[0].Name); // Get the extension for the file(s)
 
-        question.Image = $"data:image/png;base64,{Convert.ToBase64String(buffer)}"; // Convert the byte array to a string
+            using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+            {
+                await files[0].OpenReadStream().CopyToAsync(fileStream);
+            }
+
+            question.Image = @"\images\" + fileName + extension; // Set image property to the new files path
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Failed to upload image. Component: EditQuestion Method: OnInputFileChanged", ex);
+        }
     }
 }

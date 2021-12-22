@@ -17,19 +17,21 @@
             <label for="textarea" class="form-label mt-4">Image</label><br />
             <img src="@question.Image" style="width:200px;height:200px;" /><br />
             <CascadingValue Value="@question.Image">
-                <InputFile OnChange="OnInputFileChanged"></InputFile>
+                <InputFile OnChange="OnInputFileChanged" multiple></InputFile>
             </CascadingValue>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary w-25">Add</button>
+            <input @onclick="QuestionNav" class="btn btn-success w-25" value="Back" />
         </div>
     </fieldset>
 </EditForm>
 
 @code {
     @inject IQuestionRepository _questionRepository;
-    @inject NavigationManager navManager;
     @inject ILogger<CreateQuestion> _logger;
+    @inject IWebHostEnvironment _hostEnvironment;
+    @inject NavigationManager navManager;
 
     private Question question = new();
 
@@ -48,9 +50,47 @@
 
     private async Task OnInputFileChanged(InputFileChangeEventArgs e)
     {
-        var file = e.File; // Get the file
-        var buffer = new byte[file.Size]; // Convert the file to a byte array
-        await file.OpenReadStream().ReadAsync(buffer);
-        question.Image = $"data:image/png;base64,{Convert.ToBase64String(buffer)}"; // Convert the byte array to a string
+        try
+        {
+            string webRootPath = _hostEnvironment.WebRootPath; // Get path to wwwroot
+            var files = e.GetMultipleFiles();
+            string fileName = Path.GetRandomFileName(); // Give the file(s) a random name
+            var uploads = Path.Combine(webRootPath, @"images"); // Get path to wwwroot\images
+            var extension = Path.GetExtension(files[0].Name); // Get the extension for the file(s)
+
+            using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+            {
+                await files[0].OpenReadStream().CopyToAsync(fileStream);
+            }
+
+            question.Image = @"\images\" + fileName + extension; // Set image property to the new files path
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Failed to upload image. Component: CreateQuestion Method: OnInputFileChanged", ex);
+        }
+    }
+
+    public void QuestionNav()
+    {
+        DeleteImage(); // When navigating back, the image must be deleted from the server
+        navManager.NavigateTo("/questions");
+    }
+
+    public void DeleteImage()
+    {
+        try
+        {
+            string webRootPath = _hostEnvironment.WebRootPath; // Get path to wwwroot
+            var imagePath = Path.Combine(webRootPath, question.Image.TrimStart('\\')); // Get the current image property path
+            if (System.IO.File.Exists(imagePath)) // If the file exists in wwwroot\images
+            {
+                System.IO.File.Delete(imagePath); // Delete the file
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Failed to delete image. Component: CreateQuestion Method: DeleteImage", ex);
+        }
     }
 }

@@ -22,7 +22,7 @@ else
             {
                 <tr class="table-light">
                     <td>@question.Title</td>
-                    <td>@question.Content.Substring(0, 30)...</td>
+                    <td>@(question.Content.Length > 30 ? @question.Content.Substring(0, 30)+"..." : question.Content)</td>
                     <td>
                         <button @onclick="(() => EditNav(question.Id))" class="btn btn-primary w-25 me-2">Edit</button>
                         <button @onclick="(() => DeleteNav(question.Id))" class="btn btn-danger w-25 me-2">Delete</button>
@@ -35,8 +35,8 @@ else
 
 @code {
     @inject IQuestionRepository _questionRepository;
-    @inject NavigationManager navManager;
     @inject ILogger<QuestionList> _logger;
+    @inject NavigationManager navManager;
 
     private IEnumerable<Question> questions;
 
