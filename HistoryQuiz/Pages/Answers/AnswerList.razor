@@ -22,8 +22,8 @@ else
                 <tr class="table-light">
                     <td>@answer.Content.Substring(0, 3)...</td>
                     <td>
-                        <button @onclick="(() => EditNav(answer.Id))" class="btn btn-primary w-25 me-2">Edit</button>
-                        <button @onclick="(() => DeleteNav(answer.Id))" class="btn btn-danger w-25 me-2">Delete</button>
+                        <button @onclick="@(() => _navManager.NavigateTo($"/editanswer/{answer.Id}"))" class="btn btn-primary w-25 me-2">Edit</button>
+                        <button @onclick="@(() => _navManager.NavigateTo($"/deleteanswer/{answer.Id}"))" class="btn btn-danger w-25 me-2">Delete</button>
                     </td>
                 </tr>
             }
@@ -33,7 +33,6 @@ else
 
 @code {
     @inject IAnswerRepository _answerRepository;
-    @inject ILogger<AnswerList> _logger;
     @inject NavigationManager _navManager;
 
     [Parameter] public string Id { get; set; }
@@ -41,23 +40,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            answers = await _answerRepository.GetAllAnswersAsync(); // Store all the answers
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("Failed to access all answers. Component: AnswerList Method: OnInitializedAsync\n", ex);
-        }
-    }
-
-    public void EditNav(int id)
-    {
-        _navManager.NavigateTo($"/editanswer/{id}");
-    }
-
-    public void DeleteNav(int id)
-    {
-        _navManager.NavigateTo($"/deleteanswer/{id}");
+        answers = await _answerRepository.GetAllAsync();
     }
 }

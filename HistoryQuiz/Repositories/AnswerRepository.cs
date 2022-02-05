@@ -4,38 +4,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HistoryQuiz.Repositories
 {
-    public class AnswerRepository : IAnswerRepository
+    public class AnswerRepository : Repository<Answer>, IAnswerRepository
     {
         private readonly AppDbContext _context;
 
-        public AnswerRepository(AppDbContext context)
+        public AnswerRepository(AppDbContext context) : base(context)
         {
             _context = context;
         }
 
-        public async Task AddAnswerAsync(Answer answer)
-        {
-            if (answer == null)
-                throw new ArgumentNullException();
-
-            await _context.AddAsync(answer);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAnswerAsync(int id)
-        {
-            if (id == 0)
-                throw new ArgumentNullException();
-
-            var answer = await GetAnswerByIdAsync(id);
-            if (answer == null)
-                throw new ArgumentNullException();
-
-            _context.Remove(answer);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<Answer>> GetAllAnswersAsync()
+        public override async Task<IEnumerable<Answer>> GetAllAsync()
         {
             return await _context.Answers.Include(a => a.Question).OrderBy(a => a.Question.Title).ToListAsync();
         }
@@ -55,23 +33,6 @@ namespace HistoryQuiz.Repositories
                     second.Add(item);
             }
             return second;
-        }
-
-        public async Task<Answer> GetAnswerByIdAsync(int id)
-        {
-            if (id == 0)
-                throw new ArgumentNullException();
-
-            return await _context.Answers.Include(a => a.Question).FirstOrDefaultAsync(a => a.Id == id);
-        }
-
-        public async Task UpdateAnswerAsync(Answer answer)
-        {
-            if (answer == null)
-                throw new ArgumentNullException();
-
-            _context.Update(answer);
-            await _context.SaveChangesAsync();
         }
     }
 }

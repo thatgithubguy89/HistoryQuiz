@@ -30,20 +30,12 @@ else
 }
 
 @code {
-    @inject ILogger<ScoresScreen> _logger;
-    @inject IPlayerRepository _playerRepository;
+    @inject IRepository<Player> _playerRepository;
 
     private IEnumerable<Player> players;
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            players = await _playerRepository.GetAllPlayersAsync(); // Get all players from the database
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("Failed to access players. Component: ScoresScreen Method: OnInitializedAsync\n", ex);
-        }
+        players = await _playerRepository.GetAllAsync(); // Get all players from the database
     }
 }

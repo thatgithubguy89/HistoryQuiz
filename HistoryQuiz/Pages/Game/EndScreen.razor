@@ -4,12 +4,11 @@
     <h3>Game Over</h3>
 
     <p>Your score is @player.Score</p>
-    <button class="btn btn-primary" @onclick="ExitGame">Exit</button>
+    <button class="btn btn-primary" @onclick="@(() => navigationManager.NavigateTo("/"))">Exit</button>
 </div>
 
 @code {
-    @inject ILogger<EndScreen> _logger;
-    @inject IPlayerRepository _playerRepository
+    @inject IRepository<Player> _playerRepository
     @inject NavigationManager navigationManager
 
     [Parameter] public string Id { get; set; }
@@ -17,18 +16,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            player = await _playerRepository.GetPlayerByIdAsync(int.Parse(Id)); // Get the player from the database
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError($"Failed to access the player. Id{Id} Component: EndScreen Method: OnInitializedAsync\n", ex);
-        }
-    }
-
-    public void ExitGame()
-    {
-        navigationManager.NavigateTo("/"); // Go to the Index Component
+        player = await _playerRepository.GetByIdAsync(int.Parse(Id)); // Get the player from the database
     }
 }

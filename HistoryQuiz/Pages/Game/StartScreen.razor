@@ -15,7 +15,6 @@
 </EditForm>
 
 @code {
-    @inject ILogger<StartScreen> _logger;
     @inject IPlayerRepository _playerRepository
     @inject NavigationManager navigationManager
 
@@ -24,15 +23,8 @@
 
     public async Task AddPlayer()
     {
-        try
-        {
-            await _playerRepository.CreatePlayerAsync(player); // Get the player from the database
-            newPlayer = await _playerRepository.GetPlayerByInitialsAsync(player.Initials); // Get the newly created player from the database
-            navigationManager.NavigateTo($"/playgame/{newPlayer.Id}"); // Go to the GameScreen Component
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("Failed to add player. Component: StartScreen Method: AddPlayer\n", ex);
-        }
+        await _playerRepository.AddAsync(player); // Get the player from the database
+        newPlayer = await _playerRepository.GetPlayerByInitialsAsync(player.Initials); // Get the newly created player from the database
+        navigationManager.NavigateTo($"/playgame/{newPlayer.Id}"); // Go to the GameScreen Component
     }
 }

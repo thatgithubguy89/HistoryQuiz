@@ -15,8 +15,7 @@
 </div>
 
 @code {
-    @inject ILogger<DeleteAnswer> _logger;
-    @inject IAnswerRepository _answerRepository;
+    @inject IRepository<Answer> _answerRepository;
     @inject NavigationManager navManager;
 
     [Parameter] public string Id { get; set; }
@@ -24,26 +23,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            answer = await _answerRepository.GetAnswerByIdAsync(int.Parse(Id)); // Get the answer from the database
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError($"Failed to access answer. Id{Id} Component: DeleteAnswer Method: OnInitializedAsync\n", ex);
-        }
+        answer = await _answerRepository.GetByIdAsync(int.Parse(Id));
     }
 
     public async Task RemoveAnswer()
     {
-        try
-        {
-            await _answerRepository.DeleteAnswerAsync(answer.Id); // Remove the answer from the database
-            navManager.NavigateTo($"/answers");  // Go to AnswerList component
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError($"Failed to delete answer. Id{Id} Component: DeleteAnswer Method: RemoveAnswer\n", ex);
-        }
+        await _answerRepository.DeleteAsync(answer);
+        navManager.NavigateTo($"/answers");
     }
 }

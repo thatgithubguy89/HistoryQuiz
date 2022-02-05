@@ -28,8 +28,7 @@
 </EditForm>
 
 @code {
-    @inject IQuestionRepository _questionRepository;
-    @inject ILogger<CreateQuestion> _logger;
+    @inject IRepository<Question> _questionRepository;
     @inject IWebHostEnvironment _hostEnvironment;
     @inject NavigationManager navManager;
 
@@ -37,38 +36,24 @@
 
     public async Task AddQuestion()
     {
-        try
-        {
-            await _questionRepository.AddQuestionAsync(question); // Add the current question
-            navManager.NavigateTo("/questions"); // Go to the question list component
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError($"Failed to add question. Component: CreateQuestion Method: AddQuestion\n", ex);
-        }
+        await _questionRepository.AddAsync(question);
+        navManager.NavigateTo("/questions");
     }
 
     private async Task OnInputFileChanged(InputFileChangeEventArgs e)
     {
-        try
-        {
-            string webRootPath = _hostEnvironment.WebRootPath; // Get path to wwwroot
-            var files = e.GetMultipleFiles();
-            string fileName = Path.GetRandomFileName(); // Give the file(s) a random name
-            var uploads = Path.Combine(webRootPath, @"images"); // Get path to wwwroot\images
-            var extension = Path.GetExtension(files[0].Name); // Get the extension for the file(s)
+        string webRootPath = _hostEnvironment.WebRootPath; // Get path to wwwroot
+        var files = e.GetMultipleFiles();
+        string fileName = Path.GetRandomFileName(); // Give the file(s) a random name
+        var uploads = Path.Combine(webRootPath, @"images"); // Get path to wwwroot\images
+        var extension = Path.GetExtension(files[0].Name); // Get the extension for the file(s)
 
-            using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
-            {
-                await files[0].OpenReadStream().CopyToAsync(fileStream);
-            }
-
-            question.Image = @"\images\" + fileName + extension; // Set image property to the new files path
-        }
-        catch (Exception ex)
+        using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
         {
-            _logger.LogError("Failed to upload image. Component: CreateQuestion Method: OnInputFileChanged", ex);
+            await files[0].OpenReadStream().CopyToAsync(fileStream);
         }
+
+        question.Image = @"\images\" + fileName + extension; // Set image property to the new files path
     }
 
     public void QuestionNav()
@@ -79,18 +64,11 @@
 
     public void DeleteImage()
     {
-        try
+        string webRootPath = _hostEnvironment.WebRootPath; // Get path to wwwroot
+        var imagePath = Path.Combine(webRootPath, question.Image.TrimStart('\\')); // Get the current image property path
+        if (System.IO.File.Exists(imagePath)) // If the file exists in wwwroot\images
         {
-            string webRootPath = _hostEnvironment.WebRootPath; // Get path to wwwroot
-            var imagePath = Path.Combine(webRootPath, question.Image.TrimStart('\\')); // Get the current image property path
-            if (System.IO.File.Exists(imagePath)) // If the file exists in wwwroot\images
-            {
-                System.IO.File.Delete(imagePath); // Delete the file
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("Failed to delete image. Component: CreateQuestion Method: DeleteImage", ex);
+            System.IO.File.Delete(imagePath); // Delete the file
         }
     }
 }

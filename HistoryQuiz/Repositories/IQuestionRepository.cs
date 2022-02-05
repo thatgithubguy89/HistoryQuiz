@@ -2,16 +2,7 @@
 
 namespace HistoryQuiz.Repositories
 {
-    public interface IQuestionRepository
+    public interface IQuestionRepository : IRepository<Question>
     {
-        Task AddQuestionAsync(Question question);
-
-        Task DeleteQuestionAsync(int id);
-
-        Task<IEnumerable<Question>> GetAllQuestionsAsync();
-
-        Task<Question> GetQuestionByIdAsync(int id);
-
-        Task UpdateQuestionAsync(Question question);
     }
 }

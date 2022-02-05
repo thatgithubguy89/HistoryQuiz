@@ -32,10 +32,9 @@ else
 }
 
 @code {
-    @inject ILogger<GameScreen> _logger;
     @inject IAnswerRepository _answerRepository
-    @inject IQuestionRepository _questionRepository
-    @inject IPlayerRepository _playerRepository
+    @inject IRepository<Question> _questionRepository
+    @inject IRepository<Player> _playerRepository
     @inject IToastService toastService
     @inject NavigationManager navigationManager
 
@@ -48,65 +47,44 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            questions = await _questionRepository.GetAllQuestionsAsync(); // Get all questions
-            questionList = questions.ToArray(); // Convert questions enumerable to an array to better access each index
-            player = await _playerRepository.GetPlayerByIdAsync(int.Parse(Id)); // Get the player that was created on previous screen
-            await GetAnswers(questionList[0].Id); // Get all answers for the current question
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("Component: GameScreen Method: OnInitializedAsync\n", ex);
-        }
+        questions = await _questionRepository.GetAllAsync(); // Get all questions
+        questionList = questions.ToArray(); // Convert questions enumerable to an array to better access each index
+        player = await _playerRepository.GetByIdAsync(int.Parse(Id)); // Get the player that was created on previous screen
+        await GetAnswers(questionList[0].Id); // Get all answers for the current question
     }
 
     public async Task GetNextQuestion()
     {
-        try
+        await Task.Delay(2000); // Pause for two seconds before going to the next question
+        if (counter < questionList.Length - 1) // If counter is less than the length of questionList minus one
         {
-            await Task.Delay(2000); // Pause for two seconds before going to the next question
-            if (counter < questionList.Length - 1) // If counter is less than the length of questionList minus one
-            {
-                counter++; // Add one to counter
-                await GetAnswers(questionList[counter].Id); // Get answers for the next question in questionList
-            }
-            else
-            {
-                await _playerRepository.UpdatePlayerAsync(player); // If there are no more questions, update the player
-                navigationManager.NavigateTo($"/endscreen/{player.Id}"); // Go to the EndScreen Component
-            }
+            counter++; // Add one to counter
+            await GetAnswers(questionList[counter].Id); // Get answers for the next question in questionList
         }
-        catch (Exception ex)
+        else
         {
-            _logger.LogError("Component: GameScreen Method: GetNextQuestion\n", ex);
+            await _playerRepository.UpdateAsync(player); // If there are no more questions, update the player
+            navigationManager.NavigateTo($"/endscreen/{player.Id}"); // Go to the EndScreen Component
         }
     }
 
     public async Task GetAnswers(int questionId)
     {
-        answers = await _answerRepository.GetAllAnswersByQuestionIdAsync(questionId); // Get all answers that have the question id that is passed in
+        answers = await _answerRepository.GetAllAnswersByQuestionIdAsync(questionId);
     }
 
     public async Task SelectAnswer(bool choice)
     {
-        try
+        if (choice == true) // If the correct answer was selected
         {
-            if (choice == true) // If the correct answer was selected
-            {
-                toastService.ShowSuccess("Correct Answer", " "); // Show success notification
-                player.Score++; // Increment the players score
-                await GetNextQuestion(); // Go to the next question
-            }
-            else
-            {
-                toastService.ShowError("Incorrect Answer", " "); // Show error notification
-                await GetNextQuestion(); // If the incorrect answer was selected, go to the next question
-            }
+            toastService.ShowSuccess("Correct Answer", " "); // Show success notification
+            player.Score++; // Increment the players score
+            await GetNextQuestion(); // Go to the next question
         }
-        catch (Exception ex)
+        else
         {
-            _logger.LogError("Component: GameScreen Method: SelectAnswer\n", ex);
+            toastService.ShowError("Incorrect Answer", " "); // Show error notification
+            await GetNextQuestion(); // If the incorrect answer was selected, go to the next question
         }
     }
  }

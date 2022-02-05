@@ -24,8 +24,8 @@ else
                     <td>@question.Title</td>
                     <td>@(question.Content.Length > 30 ? @question.Content.Substring(0, 30)+"..." : question.Content)</td>
                     <td>
-                        <button @onclick="(() => EditNav(question.Id))" class="btn btn-primary w-25 me-2">Edit</button>
-                        <button @onclick="(() => DeleteNav(question.Id))" class="btn btn-danger w-25 me-2">Delete</button>
+                        <button @onclick="@(() => navManager.NavigateTo($"/editquestion/{@question.Id}"))" class="btn btn-primary w-25 me-2">Edit</button>
+                        <button @onclick="@(() => navManager.NavigateTo($"/deletequestion/{question.Id}"))" class="btn btn-danger w-25 me-2">Delete</button>
                     </td>
                 </tr>
             }
@@ -34,31 +34,13 @@ else
 }
 
 @code {
-    @inject IQuestionRepository _questionRepository;
-    @inject ILogger<QuestionList> _logger;
+    @inject IRepository<Question> _questionRepository;
     @inject NavigationManager navManager;
 
     private IEnumerable<Question> questions;
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            questions = await _questionRepository.GetAllQuestionsAsync(); // Store all the questions
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("Failed to access all questions. Component: QuestionList Method: OnInitializedAsync\n", ex);
-        }
-    }
-
-    public void EditNav(int id)
-    {
-        navManager.NavigateTo($"/editquestion/{id}"); // Go to the edit component for a question
-    }
-
-    public void DeleteNav(int id)
-    {
-        navManager.NavigateTo($"/deletequestion/{id}"); // Go to the delete component for a question
+        questions = await _questionRepository.GetAllAsync();
     }
 }
