@@ -13,6 +13,11 @@ namespace HistoryQuiz.Repositories
             _context = context;
         }
 
+        public override async Task<IEnumerable<Player>> GetAllAsync()
+        {
+            return await _context.Players.OrderByDescending(p => p.Score).ToListAsync();
+        }
+
         public async Task<Player> GetPlayerByInitialsAsync(string initials)
         {
             if (string.IsNullOrWhiteSpace(initials))

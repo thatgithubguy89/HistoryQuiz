@@ -28,12 +28,11 @@ else
             }
         </div>
     </div>
-
 }
 
 @code {
     @inject IAnswerRepository _answerRepository
-    @inject IRepository<Question> _questionRepository
+    @inject IQuestionRepository _questionRepository
     @inject IRepository<Player> _playerRepository
     @inject IToastService toastService
     @inject NavigationManager navigationManager
@@ -47,10 +46,10 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        questions = await _questionRepository.GetAllAsync(); // Get all questions
+        questions = await _questionRepository.GetAllAsync();
         questionList = questions.ToArray(); // Convert questions enumerable to an array to better access each index
         player = await _playerRepository.GetByIdAsync(int.Parse(Id)); // Get the player that was created on previous screen
-        await GetAnswers(questionList[0].Id); // Get all answers for the current question
+        await GetAnswers(questionList[0]); // Get all answers for the current question
     }
 
     public async Task GetNextQuestion()
@@ -59,7 +58,7 @@ else
         if (counter < questionList.Length - 1) // If counter is less than the length of questionList minus one
         {
             counter++; // Add one to counter
-            await GetAnswers(questionList[counter].Id); // Get answers for the next question in questionList
+            await GetAnswers(questionList[counter]); // Get answers for the next question in questionList
         }
         else
         {
@@ -68,9 +67,9 @@ else
         }
     }
 
-    public async Task GetAnswers(int questionId)
+    public async Task GetAnswers(Question question)
     {
-        answers = await _answerRepository.GetAllAnswersByQuestionIdAsync(questionId);
+        answers = question.Answers;
     }
 
     public async Task SelectAnswer(bool choice)

@@ -64,10 +64,11 @@
         string fileName = Path.GetRandomFileName(); // Give the file(s) a random name
         var uploads = Path.Combine(webRootPath, @"images"); // Get path to wwwroot\images
         var extension = Path.GetExtension(files[0].Name); // Get the extension for the file(s)
+        long newSize = 500000000;
 
         using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
         {
-            await files[0].OpenReadStream().CopyToAsync(fileStream);
+            await files[0].OpenReadStream(newSize).CopyToAsync(fileStream);
         }
 
         question.Image = @"\images\" + fileName + extension; // Set image property to the new files path

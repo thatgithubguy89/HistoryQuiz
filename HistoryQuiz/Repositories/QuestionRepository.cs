@@ -12,5 +12,10 @@ namespace HistoryQuiz.Repositories
         {
             _context = context;
         }
+
+        public override async Task<IEnumerable<Question>> GetAllAsync()
+        {
+            return await _context.Questions.Include(q => q.Answers).ToListAsync();
+        }
     }
 }

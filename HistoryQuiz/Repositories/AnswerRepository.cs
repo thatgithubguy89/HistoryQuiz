@@ -17,22 +17,5 @@ namespace HistoryQuiz.Repositories
         {
             return await _context.Answers.Include(a => a.Question).OrderBy(a => a.Question.Title).ToListAsync();
         }
-
-        public async Task<IEnumerable<Answer>> GetAllAnswersByQuestionIdAsync(int questionId)
-        {
-            if (questionId == 0)
-                throw new ArgumentNullException();
-
-            List<Answer> first = new List<Answer>();
-            first = await _context.Answers.ToListAsync();
-            List<Answer> second = new List<Answer>();
-
-            foreach (var item in first)
-            {
-                if (item.QuestionId == questionId)
-                    second.Add(item);
-            }
-            return second;
-        }
     }
 }

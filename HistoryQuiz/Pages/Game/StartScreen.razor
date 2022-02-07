@@ -23,8 +23,8 @@
 
     public async Task AddPlayer()
     {
-        await _playerRepository.AddAsync(player); // Get the player from the database
+        await _playerRepository.AddAsync(player);
         newPlayer = await _playerRepository.GetPlayerByInitialsAsync(player.Initials); // Get the newly created player from the database
-        navigationManager.NavigateTo($"/playgame/{newPlayer.Id}"); // Go to the GameScreen Component
+        navigationManager.NavigateTo($"/playgame/{newPlayer.Id}");
     }
 }

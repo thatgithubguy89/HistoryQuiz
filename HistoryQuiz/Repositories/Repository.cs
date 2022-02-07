@@ -12,7 +12,7 @@ namespace HistoryQuiz.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(T entity)
+        public virtual async Task AddAsync(T entity)
         {
             if (entity == null)
                 throw new ArgumentNullException();
@@ -21,7 +21,7 @@ namespace HistoryQuiz.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(T entity)
+        public virtual async Task DeleteAsync(T entity)
         {
             if (entity == null)
                 throw new ArgumentNullException();
@@ -35,7 +35,7 @@ namespace HistoryQuiz.Repositories
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public virtual async Task<T> GetByIdAsync(int id)
         {
             if (id == 0)
                 throw new ArgumentNullException();
@@ -43,7 +43,7 @@ namespace HistoryQuiz.Repositories
             return await _context.Set<T>().FindAsync(id);
         }
 
-        public async Task UpdateAsync(T entity)
+        public virtual async Task UpdateAsync(T entity)
         {
             if (entity == null)
                 throw new ArgumentNullException();

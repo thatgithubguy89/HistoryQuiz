@@ -13,5 +13,6 @@ namespace HistoryQuiz.Models
         public string Content { get; set; }
 
         public string Image { get; set; }
+        public List<Answer> Answers { get; set; }
     }
 }
