@@ -1,6 +1,7 @@
 using Blazored.Toast;
 using HistoryQuiz.Data;
 using HistoryQuiz.Repositories;
+using HistoryQuiz.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -11,6 +12,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();

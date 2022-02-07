@@ -16,6 +16,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        player = await _playerRepository.GetByIdAsync(int.Parse(Id)); // Get the player from the database
+        player = await _playerRepository.GetByIdAsync(int.Parse(Id));
     }
 }

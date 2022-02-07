@@ -29,7 +29,7 @@
 
 @code {
     @inject IRepository<Question> _questionRepository;
-    @inject IWebHostEnvironment _hostEnvironment;
+    @inject IImageService _imageService;
     @inject NavigationManager navManager;
 
     private Question question = new();
@@ -42,34 +42,12 @@
 
     private async Task OnInputFileChanged(InputFileChangeEventArgs e)
     {
-        string webRootPath = _hostEnvironment.WebRootPath; // Get path to wwwroot
-        var files = e.GetMultipleFiles();
-        string fileName = Path.GetRandomFileName(); // Give the file(s) a random name
-        var uploads = Path.Combine(webRootPath, @"images"); // Get path to wwwroot\images
-        var extension = Path.GetExtension(files[0].Name); // Get the extension for the file(s)
-        long newSize = 500000000;
-
-        using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
-        {
-            await files[0].OpenReadStream(newSize).CopyToAsync(fileStream);
-        }
-
-        question.Image = @"\images\" + fileName + extension; // Set image property to the new files path
+        question.Image = await _imageService.AddImage(e);
     }
 
     public void QuestionNav()
     {
-        DeleteImage(); // When navigating back, the image must be deleted from the server
+        _imageService.DeleteImage(question.Image); // When navigating back, the image must be deleted from the server
         navManager.NavigateTo("/questions");
-    }
-
-    public void DeleteImage()
-    {
-        string webRootPath = _hostEnvironment.WebRootPath; // Get path to wwwroot
-        var imagePath = Path.Combine(webRootPath, question.Image.TrimStart('\\')); // Get the current image property path
-        if (System.IO.File.Exists(imagePath)) // If the file exists in wwwroot\images
-        {
-            System.IO.File.Delete(imagePath); // Delete the file
-        }
     }
 }

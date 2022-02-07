@@ -15,7 +15,9 @@ namespace HistoryQuiz.Repositories
 
         public override async Task<IEnumerable<Question>> GetAllAsync()
         {
-            return await _context.Questions.Include(q => q.Answers).ToListAsync();
+            return await _context.Questions
+                .Include(q => q.Answers)
+                .ToListAsync();
         }
     }
 }

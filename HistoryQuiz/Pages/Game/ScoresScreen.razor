@@ -36,6 +36,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        players = await _playerRepository.GetAllAsync(); // Get all players from the database
+        players = await _playerRepository.GetAllAsync();
     }
 }

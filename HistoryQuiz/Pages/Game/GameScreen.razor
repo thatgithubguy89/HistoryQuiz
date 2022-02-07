@@ -47,7 +47,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         questions = await _questionRepository.GetAllAsync();
-        questionList = questions.ToArray(); // Convert questions enumerable to an array to better access each index
+        questionList = questions.ToArray(); // Convert questions to an array to better access each index
         player = await _playerRepository.GetByIdAsync(int.Parse(Id)); // Get the player that was created on previous screen
         await GetAnswers(questionList[0]); // Get all answers for the current question
     }

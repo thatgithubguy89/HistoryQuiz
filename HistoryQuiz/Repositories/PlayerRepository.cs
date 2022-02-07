@@ -15,7 +15,9 @@ namespace HistoryQuiz.Repositories
 
         public override async Task<IEnumerable<Player>> GetAllAsync()
         {
-            return await _context.Players.OrderByDescending(p => p.Score).ToListAsync();
+            return await _context.Players
+                .OrderByDescending(p => p.Score)
+                .ToListAsync();
         }
 
         public async Task<Player> GetPlayerByInitialsAsync(string initials)
