@@ -10,23 +10,6 @@
         </div>
 
         <div class="form-group mb-3">
-            <label for="textarea" class="form-label mt-4">Question</label>
-            @if (questions == null)
-            {
-                <span>Loading...</span>
-            }
-            else
-            {
-                <InputSelect @bind-Value="answer.QuestionId" class="form-control">
-                    @foreach (var question in questions)
-                    {
-                    <option value="@question.Id">@question.Title</option>
-                    }
-            </InputSelect>
-            }
-        </div>
-
-        <div class="form-group mb-3">
             <label for="textarea" class="form-label mt-4">Correct Answer?</label>
             <InputSelect @bind-Value="answer.IsCorrect" class="form-control">
                 <option value="True">Correct Answer</option>
@@ -36,29 +19,26 @@
 
         <div class="form-group mt-4">
             <button type="submit" class="btn btn-primary w-25 me-2">Update</button>
-            <NavLink class="btn btn-success w-25" href="/answers">Back</NavLink>
+            <NavLink class="btn btn-success w-25" href=@($"/editquestion/{@answer.QuestionId}")>Back</NavLink>
         </div>
     </fieldset>
 </EditForm>
 
 @code {
-    @inject IRepository<Question> _questionRepository;
     @inject IRepository<Answer> _answerRepository;
     @inject NavigationManager navManager;
 
     [Parameter] public string Id { get; set; }
     private Answer answer = new();
-    private IEnumerable<Question> questions;
 
     protected override async Task OnInitializedAsync()
     {
         answer = await _answerRepository.GetByIdAsync(int.Parse(Id));
-        questions = await _questionRepository.GetAllAsync();
     }
 
     public async Task UpdateAnswer()
     {
         await _answerRepository.UpdateAsync(answer);
-        navManager.NavigateTo($"/answers");
+        navManager.NavigateTo($"/question/{answer.QuestionId}");
     }
 }

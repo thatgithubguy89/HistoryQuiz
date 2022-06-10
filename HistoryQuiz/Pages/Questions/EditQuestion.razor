@@ -1,6 +1,6 @@
 ﻿@page "/editquestion/{id}"
 
-<EditForm Model="@question" OnValidSubmit="UpdateQuestion" class="container">
+<EditForm Model="@question" OnValidSubmit="UpdateQuestion" class="container mb-5">
     <DataAnnotationsValidator />
     <fieldset>
         <div class="form-group">
@@ -15,7 +15,7 @@
         </div>
         <div class="form-group mb-3">
             <label for="textarea" class="form-label mt-4">Image</label><br />
-            <img src="@question.Image" style="width:200px;height:200px;" /><br />
+            <img class="mb-2" src="@question.Image" style="width:200px;height:200px;" /><br />
             <CascadingValue Value="@question.Image">
                 <InputFile OnChange="OnInputFileChanged"></InputFile>
             </CascadingValue>
@@ -27,8 +27,10 @@
     </fieldset>
 </EditForm>
 
+<AnswerList QuestionId="@question.Id.ToString()" answers="@question.Answers" />
+
 @code {
-    @inject IRepository<Question> _questionRepository;
+    @inject IQuestionRepository _questionRepository;
     @inject IImageService _imageService;
     @inject NavigationManager navManager;
 
@@ -37,13 +39,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        question = await _questionRepository.GetByIdAsync(int.Parse(Id)); // Store the question whose Id matches the parameter Id
+        question = await _questionRepository.GetByIdAsync(int.Parse(Id));
     }
 
     public async Task UpdateQuestion()
     {
-        await _questionRepository.UpdateAsync(question); // Update the current question
-        navManager.NavigateTo("/questions"); // Go to the questions list component
+        await _questionRepository.UpdateAsync(question);
+        navManager.NavigateTo("/questions");
     }
 
     private async Task OnInputFileChanged(InputFileChangeEventArgs e)

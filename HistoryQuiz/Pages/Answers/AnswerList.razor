@@ -7,7 +7,7 @@
 else
 {
     <div class="container">
-        <NavLink class="btn btn-primary mt-2" href="/createanswer">Create Answer</NavLink>
+        <NavLink class="btn btn-primary mt-2" href=@($"/createanswer/{@QuestionId}")>Create Answer</NavLink>
     </div>
     <table class="table table-hover container text-center">
         <thead>
@@ -32,14 +32,9 @@ else
 }
 
 @code {
-    @inject IAnswerRepository _answerRepository;
     @inject NavigationManager _navManager;
 
-    [Parameter] public string Id { get; set; }
-    private IEnumerable<Answer> answers;
-
-    protected override async Task OnInitializedAsync()
-    {
-        answers = await _answerRepository.GetAllAsync();
-    }
+    [Parameter] public string QuestionId { get; set; }
+    
+    [Parameter] public List<Answer> answers { get; set; }
 }

@@ -20,5 +20,16 @@ namespace HistoryQuiz.Repositories
                 .OrderBy(a => a.Question.Title)
                 .ToListAsync();
         }
+
+        public async Task AddAnswerAsync(Answer answer, int questionId)
+        {
+            if (questionId == 0)
+                throw new ArgumentNullException();
+
+            answer.QuestionId = questionId;
+
+            await _context.Answers.AddAsync(answer);
+            await _context.SaveChangesAsync();
+        }
     }
 }

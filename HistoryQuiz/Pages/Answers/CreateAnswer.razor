@@ -1,4 +1,4 @@
-﻿@page "/createanswer"
+﻿@page "/createanswer/{questionId}"
 
 <EditForm Model="@answer" OnValidSubmit="AddAnswer" class="container w-50">
     <DataAnnotationsValidator />
@@ -7,23 +7,6 @@
             <label for="textarea" class="form-label mt-4">Content</label>
             <InputTextArea @bind-Value="answer.Content" class="form-control" id="textarea" rows="3" style="resize:none"></InputTextArea>
             <ValidationMessage For="@(() => answer.Content)" />
-        </div>
-
-        <div class="form-group mb-3">
-            <label for="textarea" class="form-label mt-4">Question</label>
-            @if (questions == null)
-            {
-                <span>Loading...</span>
-            }
-            else
-            {
-                <InputSelect @bind-Value="answer.QuestionId" class="form-control">
-                    @foreach (var question in questions)
-                    {
-                    <option value="@question.Id">@question.Title</option>
-                    }
-            </InputSelect>
-            }
         </div>
 
         <div class="form-group mb-3">
@@ -42,21 +25,15 @@
 </EditForm>
 
 @code {
-    @inject IRepository<Answer> _answerRepository;
-    @inject IRepository<Question> _questionRepository;
+    @inject IAnswerRepository _answerRepository;
     @inject NavigationManager navManager;
 
+    [Parameter] public string QuestionId { get; set; }
     private Answer answer = new();
-    private IEnumerable<Question> questions;
-
-    protected override async Task OnInitializedAsync()
-    {
-        questions = await _questionRepository.GetAllAsync();
-    }
 
     public async Task AddAnswer()
     {
-        await _answerRepository.AddAsync(answer);
-        navManager.NavigateTo("/answers");
+        await _answerRepository.AddAnswerAsync(answer, int.Parse(QuestionId));
+        navManager.NavigateTo($"/editquestion/{QuestionId}");
     }
 }

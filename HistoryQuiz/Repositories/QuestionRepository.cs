@@ -19,5 +19,15 @@ namespace HistoryQuiz.Repositories
                 .Include(q => q.Answers)
                 .ToListAsync();
         }
+
+        public override async Task<Question> GetByIdAsync(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException();
+
+            return await _context.Questions
+                .Include(q => q.Answers)
+                .FirstOrDefaultAsync(q => q.Id == id);
+        }
     }
 }

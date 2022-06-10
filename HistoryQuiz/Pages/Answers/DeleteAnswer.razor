@@ -9,7 +9,7 @@
 
         <div class="form-group mt-4">
             <button class="btn btn-danger w-25 me-2" @onclick="RemoveAnswer">Delete</button>
-            <NavLink class="btn btn-success w-25" href="/answers">Back</NavLink>
+            <NavLink class="btn btn-success w-25" href=@($"/editquestion/{@answer.QuestionId}")>Back</NavLink>
         </div>
     </fieldset>
 </div>
@@ -29,6 +29,6 @@
     public async Task RemoveAnswer()
     {
         await _answerRepository.DeleteAsync(answer);
-        navManager.NavigateTo($"/answers");
+        navManager.NavigateTo($"/editquestion/{answer.QuestionId}");
     }
 }
